@@ -100,7 +100,7 @@ const SideBar = ({ setAuth }) => {
  
   const getName = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/dashboard/", {
+      const response = await axios.get("http://localhost:8000/api/dashboard", {
         headers: { Authorization: localStorage.token }
       });
   

@@ -100,12 +100,12 @@ const SideBar = ({ setAuth }) => {
  
   const getName = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/dashboard/", {
+      const response = await axios.get("http://localhost:8000/api/dashboard", {
         headers: { Authorization: localStorage.token }
       });
   
       const parseData = response.data;
-      setName(parseData.firstname);
+      setName(parseData.firstn);
     } catch (err) {
       console.error(err.message);
     }
@@ -227,7 +227,7 @@ const SideBar = ({ setAuth }) => {
       >
         <AccountCircleIcon />
       </ListItemIcon>
-      <ListItemText primary={open ? `Welcome ${name}`: name} sx={{ opacity: open ? 1 : 0 }} />
+      <ListItemText primary={open ? `Welcome ${name}` : name} sx={{ opacity: open ? 1 : 0 }} />
     </ListItemButton>
   </ListItem>
   

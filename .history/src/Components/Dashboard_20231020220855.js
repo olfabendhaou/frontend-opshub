@@ -13,7 +13,7 @@ import DnsIcon from '@mui/icons-material/Dns';
 import MonitorHeartIcon from '@mui/icons-material/MonitorHeart';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-const Dashboard = ({setAuth }) => {
+const Dashboard = ({ }) => {
 
   const centerButtonStyle = {
     display: 'flex',

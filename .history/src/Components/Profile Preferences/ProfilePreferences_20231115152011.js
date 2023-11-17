@@ -1,6 +1,5 @@
 import { FormControl, InputLabel,Input, InputAdornment, IconButton} from '@mui/material'
 import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
  import React, { useState, useEffect } from 'react';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -135,10 +134,14 @@ const fetchProfileData = async () => {
         />
       </FormControl>
       <br /><br />
-      <Stack spacing={2} direction="row">
+      <div sx={{display:'flex',
+      flexDirection:'row',
+      justifyContent :'space-between',
+      alignItems:'center'}}>
       <Button variant="contained" onClick={handleUpdatepassword} >Edit</Button>
-      <Button  variant="contained"onClick={()=>{navigate(-1)}}>Cancel </Button>
-      </Stack>
+
+      <Button sx={{p}} variant="contained"onClick={()=>{navigate(-1)}}>Cancel </Button>
+      </div>
     </div>
     </div>
   )

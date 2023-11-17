@@ -1,6 +1,4 @@
-import { FormControl, InputLabel,Input, InputAdornment, IconButton} from '@mui/material'
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
+import { FormControl, InputLabel,Input, InputAdornment, IconButton, Button} from '@mui/material'
  import React, { useState, useEffect } from 'react';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -9,11 +7,9 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import SideBar from '../SideBar';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
-
-
+const navigate=useNavigate()
 const ProfilePreferences = ({setAuth}) => {
   // const dispatch = useDispatch()
-  const navigate=useNavigate()
   const [showPassword, setShowPassword] = React.useState(false);
   const [user, setUser]= useState({});
   const[oldpassword,setOldpassword]= useState({});
@@ -135,10 +131,11 @@ const fetchProfileData = async () => {
         />
       </FormControl>
       <br /><br />
-      <Stack spacing={2} direction="row">
+      <div>
       <Button variant="contained" onClick={handleUpdatepassword} >Edit</Button>
-      <Button  variant="contained"onClick={()=>{navigate(-1)}}>Cancel </Button>
-      </Stack>
+      <hr class="separator"></hr>
+      <button type="submit" onClick={()=>{navigate(-1)}}>Cancel </button>
+      </div>
     </div>
     </div>
   )
