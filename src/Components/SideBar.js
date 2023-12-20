@@ -29,6 +29,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { getConfig } from '@testing-library/react';
  
 const drawerWidth = 240;
 
@@ -91,13 +92,12 @@ const icons = [DashboardIcon, SettingsIcon, LanIcon, LockIcon, TroubleshootIcon,
 const routes = ['/dashboard', '/configurator', '/connectedsystems', '/licenses', '/troubleshooting', '/dataexplorer'];
 ////
 
-const SideBar = ({ setAuth }) => {  
+const SideBar = () => {  
     const [profileMenuOpen, setProfileMenuOpen] = React.useState(false);
-    
+    const navigate =useNavigate()
 
     //////////////Reccuperation de nom//
   const [name, setName] = useState("");
- 
   const getName = async () => {
     try {
       const response = await axios.get("http://localhost:8000/api/dashboard/", {
@@ -115,11 +115,27 @@ const SideBar = ({ setAuth }) => {
   }, []);
 
   /////////////LogOut/////////
-  const logout = async e => {
-    e.preventDefault();
+  const logout = async  () => {
     try {
+      const config = {
+        headers: {
+          Authorization: localStorage.token,
+          'Content-Type': 'application/json', 
+        },
+      };
+      const response = await axios.get('/api/user/profile', config);
+      const usertoget = response.data;
+      console.log(usertoget);
+      const timeStamp= Math.floor(new Date().getTime() / 1000)
+      const action_user={login:usertoget.firstname,
+        name:usertoget.lastname,
+        surname:usertoget.firstname,
+        email:usertoget.emailadress,
+        action:'logout',
+        action_time:timeStamp}
+      console.log(action_user)
+      await axios.post('/api/user/user_action',action_user)
       localStorage.removeItem("token");
-      setAuth(false);
       
     } catch (err) {
       console.error(err.message);
@@ -130,26 +146,18 @@ const SideBar = ({ setAuth }) => {
     setProfileMenuOpen(!profileMenuOpen);
   }
 
-
-
-  
-
-
-    const navigate = useNavigate();
     const handleListItemClick = (index) => {
         navigate(routes[index]);
       };
      function handleOption1Click() {
-      
         navigate('/settings'); 
       }
       function handleOption2Click() {
-      
         navigate('/profile'); 
       }
      
   const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
 
   
 
@@ -160,7 +168,6 @@ const SideBar = ({ setAuth }) => {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      
       <Drawer variant="permanent" open={open} >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
@@ -169,7 +176,7 @@ const SideBar = ({ setAuth }) => {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Dashboard', 'Configurator', 'Connected Systems', 'Licenses','Trouble Shooting','Data Explorer'].map((text, index) => (
+          {['Dashboard', 'Configurator', 'Connected Systems', 'Licenses','Troubleshooting','Data Explorer'].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }} >
               <ListItemButton
               onClick={() => handleListItemClick(index)}
@@ -232,7 +239,7 @@ const SideBar = ({ setAuth }) => {
   </ListItem>
   
   {profileMenuOpen && (
-  <>
+  <div>
     <ListItem key="Option1" disablePadding sx={{ display: 'block' }}>
       <ListItemButton
         onClick={handleOption1Click}
@@ -257,7 +264,6 @@ const SideBar = ({ setAuth }) => {
     </ListItem>
     <ListItem key="Option2" disablePadding sx={{ display: 'block' }}>
       <ListItemButton
-
         onClick={handleOption2Click}
         sx={{
           minHeight: 48,
@@ -282,15 +288,13 @@ const SideBar = ({ setAuth }) => {
     </ListItem>
     <ListItem key="Option3" disablePadding sx={{ display: 'block' }}>
       <ListItemButton
-
-        
         sx={{
           minHeight: 48,
           justifyContent: open ? 'initial' : 'center',
           px: 2.5,
         }}
+        onClick={()=>{logout() ; navigate('/login')}}
       >
-        
         <ListItemIcon
           sx={{
             minWidth: 0,
@@ -301,10 +305,10 @@ const SideBar = ({ setAuth }) => {
         >
           <LogoutIcon /> 
         </ListItemIcon>
-        <ListItemText primary="Log out" sx={{ opacity: open ? 1 : 0 }} onClick={logout}/>
+        <ListItemText primary="Log out" sx={{ opacity: open ? 1 : 0 }} />
       </ListItemButton>
     </ListItem>
-  </>
+  </div>
 )}
       
 </List>
