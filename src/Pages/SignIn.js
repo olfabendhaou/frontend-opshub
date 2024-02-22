@@ -26,7 +26,7 @@ const SignIn = () => {
     try {
       const body = {emailadress ,password};
       const response = await axios.post(
-        "http://localhost:8000/api/authentication/login",body
+        "/api/authentication/login",body
       );
       const parseRes = await response.data;
       if (parseRes.token) { 
@@ -37,7 +37,7 @@ const SignIn = () => {
             'Content-Type': 'application/json', 
           },
         };
-        const response = await axios.get('http://localhost:8000/api/user/profile',config);
+        const response = await axios.get('/api/user/profile',config);
         const usertoget = await response.data;
         console.log (usertoget);
         if(usertoget){
@@ -50,7 +50,7 @@ const SignIn = () => {
           action:'login',
           action_time: timeStamp})
           console.log(action_user)
-          await axios.post('http://localhost:8000/api/user/user_action',action_user)
+          await axios.post('/api/user/user_action',action_user)
           console.log('hello')
           setIsAuthenticated(true);
           console.log('isAuthenticated')
